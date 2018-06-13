@@ -5,6 +5,9 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Plugin.Permissions;
 using Android.Content.PM;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace MyWeather.Droid
 {
@@ -17,8 +20,10 @@ namespace MyWeather.Droid
 
 		protected override void OnCreate (Bundle bundle)
 		{
-			
-		    ToolbarResource = Resource.Layout.Toolbar;
+            AppCenter.Start("8eb0cdc6-2ff5-4bd4-ad03-bc48744139df",
+                   typeof(Analytics), typeof(Crashes));
+
+            ToolbarResource = Resource.Layout.Toolbar;
 		    TabLayoutResource = Resource.Layout.Tabbar;
 
 		    base.OnCreate (bundle);

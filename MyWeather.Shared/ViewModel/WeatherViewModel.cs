@@ -86,6 +86,13 @@ namespace MyWeather.ViewModels
             if (IsBusy)
                 return;
 
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"Get weather requested");
+
+            if (string.IsNullOrWhiteSpace(Location))
+            {
+                throw new Exception("Location crash bug!");
+            }
+
             IsBusy = true;
             try
             {
@@ -121,6 +128,14 @@ namespace MyWeather.ViewModels
             catch (Exception ex)
             {
                 Temp = "Unable to get Weather";
+
+                Microsoft.AppCenter.Crashes.Crashes.TrackError(ex,
+                    new System.Collections.Generic.Dictionary<string, string>
+                    {
+                        { "Location", Location.Trim() },
+                        { "UseGPS", UseGPS.ToString() },
+                        { "Issue", "Unable to get weather" }
+                    });
             }
             finally
             {
